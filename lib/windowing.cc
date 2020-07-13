@@ -79,16 +79,19 @@ namespace libopengl
         SetFramebufferSizeCallback(framebuffer_size_callback);
     }
 
-    BaseWindow::~BaseWindow(){
+    BaseWindow::~BaseWindow()
+    {
         glfwTerminate();
     }
 
-    void BaseWindow::SetFramebufferSizeCallback(GLFWframebuffersizefun callback){
+    void BaseWindow::SetFramebufferSizeCallback(GLFWframebuffersizefun callback)
+    {
         glfwSetFramebufferSizeCallback(window, callback);
     }
 
-    void BaseWindow::ProcessInput(){
-        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    void BaseWindow::ProcessInput()
+    {
+        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
     }
 
@@ -105,4 +108,19 @@ namespace libopengl
             glfwSwapBuffers(window);
         }
     }
+
+    MockWindow::MockWindow(int context_minor, int context_major, int width, int height, const char *title, bool forward_compat) : BaseWindow(context_minor, context_major, width, height, title, forward_compat) {}
+
+    void MockWindow::MainLoop() 
+    {
+        for(int i = 0; i < 100; i++)
+        {
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            glfwPollEvents();
+            glfwSwapBuffers(window);
+        }
+    }
+
 } // namespace libopengl

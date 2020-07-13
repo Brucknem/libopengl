@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv)
 {
-    libopengl::BaseWindow *window = new libopengl::BaseWindow(4, 4, 800, 600, "LearnOpenGL");
+    libopengl::BaseWindow *window = new libopengl::MockWindow(4, 4, 800, 600, "LearnOpenGL");
     window->MainLoop();
 
     return 0;
