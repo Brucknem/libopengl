@@ -3,6 +3,7 @@
 
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
+#include "opengl_object_3d.h"
 
 namespace libopengl
 {
@@ -12,6 +13,12 @@ namespace libopengl
      */
     class BaseWindow
     {
+    private:
+        /**
+         * @brief A list of OpenGL 3D objects.
+         */
+        std::vector<libopengl::OpenGLObject3D*> openGLObjects3D;
+
     protected:
         /**
          * @brief Called in the main loop to process mouse and keyboard events. 
@@ -54,6 +61,13 @@ namespace libopengl
          * @brief The window main loop. 
          */
         void virtual MainLoop();
+
+        /**
+         * @brief Adds a OpenGL 3D object to the list of rendered objects.
+         * 
+         * @param openGL3DObject The OpenGL 3D object.
+         */
+        void AddOpenGLObject3D(libopengl::OpenGLObject3D *openGL3DObject);
     };
 
     /**

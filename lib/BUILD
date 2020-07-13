@@ -15,6 +15,7 @@ cc_library(
     deps = [
         "//include:glad",
         "//lib:linkopts",
+        "//lib:opengl_object_3d",
         ],
     copts = ["-Iinclude", "-Ilib/hdr"],
 )

@@ -12,8 +12,8 @@ cc_binary(
 )
 
 cc_binary(
-    name = "main",
-    srcs = ["main.cc"],
+    name = "single-orange-square",
+    srcs = ["single-orange-square.cc"],
     deps = [
         "//include:glad",
         "//lib:lib",

@@ -55,9 +55,9 @@ namespace libopengl
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, context_minor);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, context_major);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        #ifdef __APPLE__
-            glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        #endif
+#ifdef __APPLE__
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
 
         window = glfwCreateWindow(width, height, title, NULL, NULL);
         if (window == NULL)
@@ -103,16 +103,26 @@ namespace libopengl
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            for (const auto &openGLObject3D : openGLObjects3D)
+            {
+                openGLObject3D->Render();
+            }
+
             glfwPollEvents();
             glfwSwapBuffers(window);
         }
     }
 
+    void BaseWindow::AddOpenGLObject3D(libopengl::OpenGLObject3D *openGL3DObject)
+    {
+        openGLObjects3D.push_back(openGL3DObject);
+    }
+
     MockWindow::MockWindow(int context_minor, int context_major, int width, int height, const char *title) : BaseWindow(context_minor, context_major, width, height, title) {}
 
-    void MockWindow::MainLoop() 
+    void MockWindow::MainLoop()
     {
-        for(int i = 0; i < 100; i++)
+        for (int i = 0; i < 100; i++)
         {
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
