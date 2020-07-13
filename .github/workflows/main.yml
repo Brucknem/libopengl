@@ -15,6 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
+    - name: Install OpenGL
+      run: sudo apt install libglfw3-dev libglu1-mesa-dev freeglut3-dev mesa-common-dev -y
     - name: run
       uses: ngalaiko/bazel-action/2.0.0@master
       with:
