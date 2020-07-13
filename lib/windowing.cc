@@ -49,16 +49,15 @@ namespace libopengl
         }
     };
 
-    BaseWindow::BaseWindow(int context_minor, int context_major, int width, int height, const char *title, bool forward_compat)
+    BaseWindow::BaseWindow(int context_minor, int context_major, int width, int height, const char *title)
     {
         glfwInit();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, context_minor);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, context_major);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        if (forward_compat)
-        {
+        #ifdef __APPLE__
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-        }
+        #endif
 
         window = glfwCreateWindow(width, height, title, NULL, NULL);
         if (window == NULL)
@@ -109,7 +108,7 @@ namespace libopengl
         }
     }
 
-    MockWindow::MockWindow(int context_minor, int context_major, int width, int height, const char *title, bool forward_compat) : BaseWindow(context_minor, context_major, width, height, title, forward_compat) {}
+    MockWindow::MockWindow(int context_minor, int context_major, int width, int height, const char *title) : BaseWindow(context_minor, context_major, width, height, title) {}
 
     void MockWindow::MainLoop() 
     {
