@@ -65,7 +65,7 @@ namespace libopengl
         /**
          * @brief Destroy the Open GL 3D Object
          */
-        ~OpenGLObject3D();
+        virtual ~OpenGLObject3D();
 
         /**
          * @brief Render itself.

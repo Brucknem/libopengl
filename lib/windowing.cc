@@ -1,6 +1,7 @@
 #include "windowing.h"
 #include <exception>
 #include <iostream>
+#include <stdexcept>
 
 namespace libopengl
 {
@@ -14,39 +15,6 @@ namespace libopengl
     void framebuffer_size_callback(GLFWwindow *window, int width, int height)
     {
         glViewport(0, 0, width, height);
-    };
-
-    /**
-     * @brief Exception thrown when GLFW cannot create a window.
-     */
-    class WindowCreationException : public std::exception
-    {
-    public:
-        /**
-             * @brief The exception message.
-             * 
-             * @return const char* 
-             */
-        virtual const char *what() const throw()
-        {
-            return "Failed to create GLFW window";
-        }
-    };
-
-    /**
-     * @brief Exception thrown when the GLAD loader cannot be initialized.
-     */
-    class GLADLoaderInitializationException : public std::exception
-    {
-        /**
-         * @brief The exception message.
-         * 
-         * @return const char* 
-         */
-        virtual const char *what() const throw()
-        {
-            return "Failed to initialize GLAD";
-        }
     };
 
     BaseWindow::BaseWindow(int context_minor, int context_major, int width, int height, const char *title)
@@ -63,14 +31,14 @@ namespace libopengl
         if (window == NULL)
         {
             glfwTerminate();
-            throw WindowCreationException();
+            throw std::runtime_error("Failed to create GLFW window");
         }
         glfwMakeContextCurrent(window);
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
             glfwTerminate();
-            throw GLADLoaderInitializationException();
+            throw std::runtime_error("Failed to initialize GLAD");
         }
 
         glViewport(0, 0, width, height);

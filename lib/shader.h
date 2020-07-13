@@ -144,6 +144,11 @@ namespace libopengl {
 		 * @return unsigned int 
 		 */
 		unsigned int compileShader(const char* shaderPath, int type) ;
+
+		/**
+		 * @brief Destroy the Shader object
+		 */
+		virtual ~Shader(){};
 	};
 
 	/**
@@ -161,6 +166,11 @@ namespace libopengl {
 		 * @param geometryPath The file path to the geometry shader code.
 		 */
 		VertexFragmentShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = "");
+
+		/**
+		 * @brief Destroy the Vertex Fragment Shader object
+		 */
+		virtual ~VertexFragmentShader(){};
 	};
 
 	/**
@@ -176,6 +186,11 @@ namespace libopengl {
 		 * @param computeShaderPath The file path to the compute shader code.
 		 */
 		ComputeShader(const char* computeShaderPath);
+
+		/**
+		 * @brief Destroy the Compute Shader object
+		 */
+		virtual ~ComputeShader(){};
 	};
 }
 #endif

@@ -48,7 +48,7 @@ namespace libopengl
         /**
          * @brief Destroy the Base Window object. 
          */
-        ~BaseWindow();
+        virtual ~BaseWindow();
 
         /**
          * @brief Set the Framebuffer Size Callback of the OpenGL/GLFW window.
@@ -94,6 +94,11 @@ namespace libopengl
          * @brief The window main loop. Terminates after 100 frames.
          */
         void MainLoop() override;
+
+        /**
+         * @brief Destroy the Mock Window object
+         */
+        virtual ~MockWindow(){}
     };
 } // namespace libopengl
 
