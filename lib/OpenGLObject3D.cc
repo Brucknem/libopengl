@@ -1,4 +1,4 @@
-#include "opengl_object_3d.h"
+#include "OpenGLObject3D.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "iostream"

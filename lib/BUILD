@@ -15,15 +15,15 @@ cc_library(
     deps = [
         "//include:glad",
         "//lib:linkopts",
-        "//lib:opengl_object_3d",
+        "//lib:OpenGLObject3D",
         ],
     copts = ["-Iinclude", "-Ilib/hdr"],
 )
 
 cc_library(
-    name = "opengl_object_3d",
-    srcs = ["opengl_object_3d.cc"],
-    hdrs = ["opengl_object_3d.h"],
+    name = "OpenGLObject3D",
+    srcs = ["OpenGLObject3D.cc"],
+    hdrs = ["OpenGLObject3D.h"],
     visibility = ["//visibility:public"],
     deps = [
         "//include:glad",
@@ -53,7 +53,7 @@ cc_library(
     deps = [
         "//lib:windowing",
         "//lib:linkopts",
-        "//lib:opengl_object_3d",
+        "//lib:OpenGLObject3D",
         "//lib:shaders",
         ],
     visibility = ["//visibility:public"],

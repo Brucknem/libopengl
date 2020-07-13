@@ -105,7 +105,13 @@ namespace libopengl {
 		}
 	}
 	
-	unsigned int Shader::compileShader(const char* shaderPath, int type) {
+	/**
+	 * @brief Determines the shader name by the OpenGL type flag.
+	 * 
+	 * @param type 
+	 * @return std::string 
+	 */
+	std::string determineName(int type){
 		std::string name;
 		switch (type) {
 		case GL_VERTEX_SHADER:
@@ -121,62 +127,62 @@ namespace libopengl {
 			name = "COMPUTE";
 			break;
 		default:
-			std::cerr << "(" << name << ") Can only compile shaders of types: GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, GL_GEOMETRY_SHADER" << std::endl;
-			return -1;
+			throw std::invalid_argument("(" + name + ") Can only compile shaders of types: GL_VERTEX_SHADER, GL_FRAGMENT_SHADER, GL_GEOMETRY_SHADER");
 		}
+		return name;
+	}
+
+	/**
+	 * @brief Reads some glsl shader code from the given path.
+	 * 
+	 * @param shaderPath 
+	 * @return std::string 
+	 */
+	std::string readShaderCode(const char* shaderPath){
+		std::string code;
+		std::ifstream shaderFile;
+		shaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		shaderFile.open(shaderPath);
+		std::stringstream shaderStream;
+		shaderStream << shaderFile.rdbuf();
+		shaderFile.close();
+		code = shaderStream.str();
+		return code;
+	}
+
+	unsigned int Shader::compileShader(const char* shaderPath, int type) {
+		std::string name = determineName(type);
 
 		if (std::strlen(shaderPath) == 0) {
-			//std::cout << "Skipping " << name << std::endl;
 			return -1;
 		}
 
-		// 1. retrieve the vertex/fragment source code from filePath
-		std::string vertexCode;
-		std::ifstream vertexShaderFile;
-		// ensure ifstream objects can throw exceptions:
-		vertexShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-		try
-		{
-			// open files
-			vertexShaderFile.open(shaderPath);
-			std::stringstream vertexShaderStream;
-			// read file's buffer contents into streams
-			vertexShaderStream << vertexShaderFile.rdbuf();
-			// close file handlers
-			vertexShaderFile.close();
-			// convert stream into string
-			vertexCode = vertexShaderStream.str();
-		}
-		catch (const std::ifstream::failure& e)
-		{
-			std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
-		}
-		const char* vertexShaderCode = vertexCode.c_str();
-		// 2. compile shaders
-		unsigned int vertexShader;
-		// vertex shader
-		vertexShader = glCreateShader(type);
-		glShaderSource(vertexShader, 1, &vertexShaderCode, NULL);
-		glCompileShader(vertexShader);
-		checkCompileErrors(vertexShader, name);
+		std::string shaderCode = readShaderCode(shaderPath);
+		const char* c_style = shaderCode.c_str();
 
-		return vertexShader;
+		unsigned int shader;
+		shader = glCreateShader(type);
+		glShaderSource(shader, 1, &c_style, NULL);
+		glCompileShader(shader);
+		checkCompileErrors(shader, name);
+
+		return shader;
 	}
 
 	VertexFragmentShader::VertexFragmentShader(const char* vertexPath, const char* fragmentPath, const char* geometryPath) : Shader()
 	{			
-		unsigned int vertexShader = compileShader(vertexPath, GL_VERTEX_SHADER );
+		unsigned int shader = compileShader(vertexPath, GL_VERTEX_SHADER );
 		unsigned int fragmentShader = compileShader(fragmentPath, GL_FRAGMENT_SHADER);
 		unsigned int geometryShader = compileShader(geometryPath, GL_GEOMETRY_SHADER);
 
 		ID = glCreateProgram();
-		attachIfValid(vertexShader);
+		attachIfValid(shader);
 		attachIfValid(fragmentShader);
 		attachIfValid(geometryShader);
 		glLinkProgram(ID);
 		checkCompileErrors(ID, "PROGRAM");
 		// delete the shaders as they're linked into our program now and no longer necessary
-		deleteIfValid(vertexShader);
+		deleteIfValid(shader);
 		deleteIfValid(fragmentShader);
 		deleteIfValid(geometryShader);
 	}
@@ -199,11 +205,10 @@ namespace libopengl {
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 1, &work_grp_size[1]);
 		glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_SIZE, 2, &work_grp_size[2]);
 
-		printf("max local (in one shader) work group sizes x:%i y:%i z:%i\n",
-			work_grp_size[0], work_grp_size[1], work_grp_size[2]);
+		std::cout << "max local (in one shader) work group sizes x: " << work_grp_size[0] << " y: " << work_grp_size[1] << " z:" << work_grp_size[2] << std::endl;
 
 		int work_grp_inv;
 		glGetIntegerv(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS, &work_grp_inv);
-		printf("max local work group invocations %i\n", work_grp_inv);
+		std::cout << "max local work group invocations " << work_grp_inv;
 	}
 }

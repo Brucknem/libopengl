@@ -14,9 +14,16 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace libopengl {
+	/**
+	 * @brief Base class for OpenGL shader programs.
+	 */
 	class Shader
 	{
 	public:
+		/**
+		 * @brief The OpenGL id of the shader program.
+		 * 
+		 */
 		unsigned int ID;
 
 		/**

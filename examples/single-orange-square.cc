@@ -4,7 +4,7 @@
 #include <iostream>
 #include "lib/windowing.h"
 #include "lib/shader.h"
-#include "lib/opengl_object_3d.h"
+#include "lib/OpenGLObject3D.h"
 #include <iostream>
 
 int main(int argc, char **argv)
