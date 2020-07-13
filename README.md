@@ -3,3 +3,10 @@
 # libopengl
 
 A OpenGL rendering and compute shading library
+
+# Goals:
+
+[ ] Easy window creation
+[ ] Object rendering pipeline
+[ ] Compute shading framework
+[ ] Basic keyboard and mouse movements 
