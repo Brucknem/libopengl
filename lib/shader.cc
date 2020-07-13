@@ -16,44 +16,55 @@ namespace libopengl {
 	{
 		glUseProgram(ID);
 	}
+
 	void Shader::setBool(const std::string& name, bool value) const
 	{
 		glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
 	}
+
 	void Shader::setInt(const std::string& name, int value) const
 	{
 		glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
 	}
+
 	void Shader::setFloat(const std::string& name, float value) const
 	{
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}
+
 	void Shader::setVec2(const std::string& name, const float x, const float y) const
 	{
 		glUniform2f(glGetUniformLocation(ID, name.c_str()), x, y);
 	}
+
 	void Shader::setVec3(const std::string& name, const glm::vec3 vec) const
 	{
 		setVec3(name, vec.x, vec.y, vec.z);
 	}
+
 	void Shader::setVec3(const std::string& name, const float x, const float y, const float z) const
 	{
 		glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
 	}
+
 	void Shader::setVec3i(const std::string& name, const int x, const int y, const int z) const
 	{
 		glUniform3i(glGetUniformLocation(ID, name.c_str()), x, y, z);
 	}
+
 	void Shader::setColor(const std::string& name, float r, float g, float b, float a) const
 	{
 		glUniform4f(glGetUniformLocation(ID, name.c_str()), r, g, b, a);
 	}
+
 	void Shader::setMat3(const std::string& name, const glm::mat3 matrix) {
 		glUniformMatrix3fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
+
 	void Shader::setMat4(const std::string& name, const glm::mat4 matrix) {
 		glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(matrix));
 	}
+
 	void Shader::setArray3(const std::string& name, GLfloat *vec, int count) {
 		glUniform3fv(glGetUniformLocation(ID, name.c_str()), count, vec);
 	}
@@ -87,11 +98,13 @@ namespace libopengl {
 			glAttachShader(ID, shaderId);
 		}
 	}
+
 	void Shader::deleteIfValid(unsigned int shaderId) {
 		if (shaderId != (unsigned int)-1) {
 			glDeleteShader(shaderId);
 		}
 	}
+	
 	unsigned int Shader::compileShader(const char* shaderPath, int type) {
 		std::string name;
 		switch (type) {
