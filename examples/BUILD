@@ -5,6 +5,17 @@ cc_binary(
     srcs = ["windowing-test.cc"],
     deps = [
         "//include:glad",
+        "//lib:windowing",
+        ],
+    copts = ["-Iinclude", "-Ilib"],
+    tags = ["local"]
+)
+
+cc_binary(
+    name = "main",
+    srcs = ["main.cc"],
+    deps = [
+        "//include:glad",
         "//lib:lib",
         ],
     copts = ["-Iinclude", "-Ilib"],
