@@ -12,6 +12,9 @@ COPY shaders/ shaders/
 COPY tests/ tests/
 COPY LICENSE .
 COPY WORKSPACE .
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod 777 /usr/local/bin/docker-entrypoint.sh \
+    && ln -s /usr/local/bin/docker-entrypoint.sh /
 
 RUN apt-get update \
   && apt-get install -y -qq --no-install-recommends \
@@ -28,7 +31,10 @@ RUN apt-get update \
     libglm-dev \
     libglu1-mesa-dev \
     freeglut3-dev \
-    mesa-common-dev
+    mesa-common-dev \
+    mesa-utils \
+    xauth \
+    xvfb
 
 ENV NVIDIA_VISIBLE_DEVICES=all
 ENV NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute
@@ -42,3 +48,4 @@ RUN apt-get update && apt-get install -y -qq --no-install-recommends bazel
 RUN rm -rf /var/lib/apt/lists/*
 
 RUN bazel build //...
+
