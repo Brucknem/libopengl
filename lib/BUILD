@@ -2,7 +2,7 @@ load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
     name = "linkopts",
-    linkopts = ["-lglut", "-lGLU", "-lGL", "-lglfw", "-lX11", "-lpthread", "-lXrandr", "-lXi", "-ldl"],
+    linkopts = ["-lglut", "-lGLU", "-lGL", "-lglfw", "-lX11", "-lpthread", "-ldl"],
     visibility = ["//visibility:public"],
 )
 

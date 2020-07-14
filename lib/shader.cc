@@ -191,12 +191,10 @@ namespace libopengl {
 	{
 		unsigned int computeShader = compileShader(computeShaderPath, GL_COMPUTE_SHADER);
 
-		// shader Program
 		ID = glCreateProgram();
 		attachIfValid(computeShader);
 		glLinkProgram(ID);
 		checkCompileErrors(ID, "PROGRAM");
-		// delete the shaders as they're linked into our program now and no longer necessery
 		glDeleteShader(computeShader);
 
 		int work_grp_size[3];
